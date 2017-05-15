@@ -365,7 +365,7 @@ local function open_gif(filename)
       local LZW_voc         -- [code] = {prefix_code, color_index}
       local bits_in_code = bits_in_color + 1
       local next_power_of_two = 2^bits_in_code
-      local first_undefined_code, need_completion, virtual_phrase_code
+      local first_undefined_code, need_completion
 
       local stream_bit_buffer = 0
       local bits_in_buffer = 0
@@ -387,7 +387,6 @@ local function open_gif(filename)
          bits_in_code = bits_in_color + 1
          next_power_of_two = 2^bits_in_code
          first_undefined_code = CLEAR_VOC + 2
-         virtual_phrase_code = first_undefined_code
          need_completion = nil
       end
 
@@ -435,16 +434,17 @@ local function open_gif(filename)
             x_inside_window, y_inside_window = 0, 0
          end
          if color_index ~= loaded_frame_transparent_color_index then
-            loaded_frame_matrix[top + y_inside_window + 1][left + x_inside_window + 1] = assert(palette[color_index], 'wrong file format')
+            loaded_frame_matrix[top + y_inside_window + 1][left + x_inside_window + 1]
+               = assert(palette[color_index], 'wrong file format')
          end
       end
 
       local max_used_color_index
 
       repeat
-         -- LZW_voc              =  array of elements [code] = {prefix_code, color_index}
-         --                all the codes (CLEAR_VOC+2)...(first_undefined_code-2) are defined completely
-         --                the code (first_undefined_code-1) has defined only its first component
+         -- LZW_voc: [code] = {prefix_code, color_index}
+         -- all the codes (CLEAR_VOC+2)...(first_undefined_code-2) are defined completely
+         -- the code (first_undefined_code-1) has defined only its first component
          local code = read_code_from_stream()
          if code < CLEAR_VOC then
             max_used_color_index = math.max(max_used_color_index or 0, code)
@@ -472,7 +472,6 @@ local function open_gif(filename)
             for pos = pos, 1, -1 do
                pixel_from_stream(stack_of_pixels[pos])
             end
-            virtual_phrase_code = virtual_phrase_code + 1
             if first_undefined_code < 0x1000 then
                -- create new code
                LZW_voc[first_undefined_code] = {code}
