@@ -1,6 +1,6 @@
 # pure_lua_GIF
 
-GIF decoder in pure Lua
+GIF decoder written in pure Lua
 
 ### Installation
 
