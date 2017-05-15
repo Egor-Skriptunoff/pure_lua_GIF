@@ -439,16 +439,11 @@ local function open_gif(filename)
          end
       end
 
-      local max_used_color_index
-
       repeat
          -- LZW_voc: [code] = {prefix_code, color_index}
          -- all the codes (CLEAR_VOC+2)...(first_undefined_code-2) are defined completely
          -- the code (first_undefined_code-1) has defined only its first component
          local code = read_code_from_stream()
-         if code < CLEAR_VOC then
-            max_used_color_index = math.max(max_used_color_index or 0, code)
-         end
          if code == CLEAR_VOC then
             clear_LZW_voc()
          elseif code ~= END_OF_STREAM then
