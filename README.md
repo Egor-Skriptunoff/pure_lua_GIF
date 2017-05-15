@@ -11,13 +11,13 @@ Just copy "gif.lua" to Lua modules' folder.
 ```lua
 local filename = "SOME_PICTURE.gif"
 
--- Open GIF file as read-only
-local gif = require'gif'(filename)
+-- Create "GIF object" for specified file (the file will be opened as read-only)
+local gif = require('gif')(filename)
 
 -- Extract some information about this GIF
 local w, h = gif.get_width_height()
-print('Picture dimensions: '        ..w..' x '..h)
-print('Number of animation frames: '..gif.get_file_parameters().number_of_images)
+print('Picture dimensions: '        .. w..' x '..h)
+print('Number of animation frames: '.. gif.get_file_parameters().number_of_images)
 print('Comment inside this GIF: '   ..(gif.get_file_parameters().comment or 'NO_COMMENT'))
 
 -- Get the color of pixel with coordinates (2,0)
@@ -31,6 +31,6 @@ else
    print(("The color of this pixel in hexadecimal RRGGBB format is %06X"):format(color))
 end
 
--- Close GIF file
+-- Close "GIF object" (file will be closed now)
 gif.close()
 ```
