@@ -7,7 +7,7 @@
 
 -- Version 1  (2017-05-15)
 
--- require('gif') opens .gif-file for read-only and returns "GifObject" with the following functions:
+-- require('gif')(filename) opens .gif-file for read-only and returns "GifObject" having the following functions:
 --    read_matrix(x, y, width, height)
 --       returns current image (one animated frame) as 2D-matrix of colors (as nested Lua tables)
 --       by default whole non-clipped picture is returned
